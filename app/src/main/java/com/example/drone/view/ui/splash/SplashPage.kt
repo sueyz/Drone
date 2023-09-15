@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentSplashPageBinding
+import safeNavigate
 
 class SplashPage : BaseFragment<FragmentSplashPageBinding, SplashViewModel>() {
 
@@ -22,9 +23,13 @@ class SplashPage : BaseFragment<FragmentSplashPageBinding, SplashViewModel>() {
 
     override fun setupView(view: View) {
         navController = Navigation.findNavController(view)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            navController.navigate(R.id.action_splashPage_to_homePage)
-        }, 3000)
+            navController.safeNavigate(R.id.action_splashPage_to_homePage)
+        }, 2500)
     }
 }

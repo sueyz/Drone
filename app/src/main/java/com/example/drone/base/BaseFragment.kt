@@ -117,22 +117,4 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
             })
     }
 
-    protected fun closeKeyboard() {
-        val inputManager =
-            ContextCompat.getSystemService(activityContext, InputMethodManager::class.java)
-        inputManager?.hideSoftInputFromWindow(
-            activityContext.currentFocus?.windowToken,
-            InputMethodManager.HIDE_NOT_ALWAYS
-        )
-    }
-
-    protected fun openKeyboard() {
-        val inputManager =
-            ContextCompat.getSystemService(activityContext, InputMethodManager::class.java)
-        inputManager?.showSoftInput(
-            activityContext.currentFocus,
-            InputMethodManager.SHOW_IMPLICIT
-        )
-    }
-
 }
