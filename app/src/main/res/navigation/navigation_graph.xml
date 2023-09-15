@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/splashPage">
+
+    <fragment
+        android:id="@+id/splashPage"
+        android:name="com.example.drone.view.ui.splash.SplashPage"
+        android:label="splashPage"
+        tools:layout="@layout/fragment_splash_page">
+        <action
+            android:id="@+id/action_splashPage_to_homePage"
+            app:destination="@id/homePage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homePage"
+        android:name="com.example.drone.view.ui.home.HomePage"
+        android:label="homePage"
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/action_homePage_to_mapPage"
+            app:destination="@id/mapPage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapPage"
+        android:name="com.example.drone.view.ui.map.MapPage"
+        android:label="secondPage"
+        tools:layout="@layout/fragment_map_page">
+        <action
+            android:id="@+id/action_mapPage_to_homePage"
+            app:destination="@id/homePage" />
+    </fragment>
+
+</navigation>

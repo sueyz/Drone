@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/wine"
+        android:layout_height="match_parent">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_drone"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            app:lottie_rawRes="@raw/animation_drone"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45"
+            />
+
+        <TextView
+            android:id="@+id/tv_drone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/launching"
+            android:fontFamily="@font/black_ops_one"
+            android:textSize="@dimen/_30ssp"
+            android:textColor="@color/white_smoke"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@id/lottie_drone"
+            app:layout_constraintStart_toStartOf="@id/lottie_drone"
+            app:layout_constraintTop_toBottomOf="@+id/lottie_drone" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Drone</string>
+    <string name="launching">Launching!</string>
 </resources>

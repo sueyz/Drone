@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <dimen name="button_corner_radius">@dimen/_6sdp</dimen>
+    <dimen name="button_corner_radius_large">@dimen/_40sdp</dimen>
+    <dimen name="button_stroke">@dimen/_1sdp</dimen>
+    <dimen name="view_height">@dimen/_1sdp</dimen>
+    <dimen name="card_view_radius">@dimen/_6sdp</dimen>
+    <dimen name="card_elevation">@dimen/_2sdp</dimen>
+
+    <dimen name="button_height">@dimen/_20sdp</dimen>
+
+
+    <dimen name="top_xsmall_margin">@dimen/_2sdp</dimen>
+    <dimen name="top_small_margin">@dimen/_5sdp</dimen>
+    <dimen name="top_margin">@dimen/_10sdp</dimen>
+    <dimen name="top_xmargin">@dimen/_15sdp</dimen>
+    <dimen name="top_xxmargin">@dimen/_20sdp</dimen>
+    <dimen name="top_xxxmargin">@dimen/_30sdp</dimen>
+    <dimen name="left_margin">@dimen/_10sdp</dimen>
+    <dimen name="left_small_margin">@dimen/_5sdp</dimen>
+    <dimen name="right_margin">@dimen/_10sdp</dimen>
+    <dimen name="left_xmargin">@dimen/_15sdp</dimen>
+    <dimen name="right_xmargin">@dimen/_15sdp</dimen>
+    <dimen name="left_xxmargin">@dimen/_20sdp</dimen>
+    <dimen name="right_xxmargin">@dimen/_20sdp</dimen>
+
+    <dimen name="et_padding">@dimen/_15sdp</dimen>
+
+    <!-- Lottie ImageView Height and Width Attributes-->
+    <dimen name="biometric_width">@dimen/_140sdp</dimen>
+    <dimen name="biometric_height">@dimen/_140sdp</dimen>
+    <dimen name="detail_submission_width">@dimen/_140sdp</dimen>
+    <dimen name="detail_submission_height">@dimen/_140sdp</dimen>
+    <dimen name="referral_code_width">@dimen/_140sdp</dimen>
+    <dimen name="referral_code_height">@dimen/_140sdp</dimen>
+    <dimen name="set_pin_width">@dimen/_140sdp</dimen>
+    <dimen name="set_pin_height">@dimen/_140sdp</dimen>
+    <dimen name="sign_up_width">@dimen/_140sdp</dimen>
+    <dimen name="sign_up_height">@dimen/_140sdp</dimen>
+    <dimen name="otp_width">@dimen/_140sdp</dimen>
+    <dimen name="otp_height">@dimen/_140sdp</dimen>
+    <dimen name="welcome_width">@dimen/_180sdp</dimen>
+    <dimen name="welcome_height">@dimen/_180sdp</dimen>
+    <dimen name="loading_width_height">@dimen/_50sdp</dimen>
+    <dimen name="blcard_add_card_lottie_height">@dimen/_140sdp</dimen>
+
+    <dimen name="active_button_height">@dimen/_20sdp</dimen>
+    <dimen name="seekbar_thumb_size">@dimen/_20ssp</dimen>
+    <dimen name="seekbar_thumb_text_size">@dimen/_12ssp</dimen>
+
+    <dimen name="deals_icon">@dimen/_30ssp</dimen>
+
+    <dimen name="edittext_layout_height">@dimen/_40sdp</dimen>
+
+    <dimen name="dashboard_btn_view_all_text_size">@dimen/_9ssp</dimen>
+    <dimen name="toolbar_height">@dimen/_23sdp</dimen>  <!-- design is 56px  -->
+
+    <!--    Force the image and text to stick to each other-->
+    <dimen name="design_bottom_navigation_height" tools:override="true">@dimen/_42sdp</dimen>
+</resources>
