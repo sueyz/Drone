@@ -12,6 +12,7 @@ import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentMapPageBinding
 import com.example.drone.view.ui.home.HomeViewModel
+import safeNavigate
 
 class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
 
@@ -20,13 +21,11 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
     override val viewModel: HomeViewModel by viewModels()
 
     override fun init(savedInstanceState: Bundle?) {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-
         val window = activityContext.window
 
         val windowInsetsController =
             WindowCompat.getInsetsController(window, window.decorView)
-        
+
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 
@@ -39,6 +38,15 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
     override fun setupView(view: View) {
         navController = Navigation.findNavController(view)
 
+        binding.ivHome.setOnClickListener {
+            navController.popBackStack()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
     }
 
     override fun onPause() {

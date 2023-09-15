@@ -1,14 +1,10 @@
 package com.example.drone.base
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -98,23 +94,6 @@ abstract class BaseFragment<TBinding : ViewDataBinding, TViewModel : BaseViewMod
 
     override fun onDestroyView() {
         super.onDestroyView()
-    }
-
-    protected open fun goToHome() {
-        val homeIntent = Intent(Intent.ACTION_MAIN)
-        homeIntent.addCategory(Intent.CATEGORY_HOME)
-        homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(homeIntent)
-    }
-
-    protected open fun deviceBackButtonGoToHome() {
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    goToHome()
-                }
-            })
     }
 
 }

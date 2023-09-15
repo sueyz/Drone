@@ -13,6 +13,8 @@
         <action
             android:id="@+id/action_splashPage_to_homePage"
             app:destination="@id/homePage"
+            app:popUpTo="@id/splashPage"
+            app:popUpToInclusive="true"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
@@ -35,16 +37,8 @@
     <fragment
         android:id="@+id/mapPage"
         android:name="com.example.drone.view.ui.map.MapPage"
-        android:label="secondPage"
+        android:label="mapPage"
         tools:layout="@layout/fragment_map_page">
-        <action
-            android:id="@+id/action_mapPage_to_homePage"
-            app:destination="@id/homePage"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            />
     </fragment>
 
 </navigation>

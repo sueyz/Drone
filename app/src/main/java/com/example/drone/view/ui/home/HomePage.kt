@@ -20,7 +20,6 @@ class HomePage : BaseFragment<FragmentHomePageBinding, HomeViewModel>(){
     override fun initView(savedInstanceState: Bundle?) {}
 
     override fun setupView(view: View) {
-        deviceBackButtonGoToHome()
 
         navController = Navigation.findNavController(view)
 
