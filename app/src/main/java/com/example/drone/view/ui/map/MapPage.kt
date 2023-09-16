@@ -96,6 +96,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, MapViewModel>(), LocationLi
     override fun setupView(view: View) {
         navController = Navigation.findNavController(view)
 
+        //fetch API
         viewModel.getDataFromAPI(latitude.toString(), longitude.toString())
 
         binding.ivHome.setOnClickListener {
