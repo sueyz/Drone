@@ -53,7 +53,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         binding.ivHome.setOnClickListener {
             navController.popBackStack()
         }
-        
+
         broadcastReceiver = BatteryManagerBroadcastReceiver {
             val propertyCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 

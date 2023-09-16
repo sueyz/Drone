@@ -46,18 +46,43 @@
             android:text="Disconnected"
             android:textColor="@color/white_smoke"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
-            app:layout_constraintEnd_toStartOf="@id/tv_battery"
+            app:layout_constraintEnd_toStartOf="@id/iv_remote"
             app:layout_constraintStart_toEndOf="@id/iv_shape"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_remote"
+            android:background="@color/thirty_five_opaque"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+            app:layout_constraintEnd_toStartOf="@id/tv_remote"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/thirty_five_opaque"
+            android:gravity="center"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingStart="@dimen/_5sdp"
+            android:text="N/A"
+            android:textColor="@color/white_smoke"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+            app:layout_constraintEnd_toStartOf="@id/iv_battery"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_battery"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:background="@color/thirty_five_opaque"
             android:src="@drawable/battery_level"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
-            app:layout_constraintEnd_toStartOf="@id/tv_battery" />
+            app:layout_constraintEnd_toStartOf="@id/tv_battery"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_battery"
