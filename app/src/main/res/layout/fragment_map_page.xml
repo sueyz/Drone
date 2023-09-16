@@ -42,12 +42,53 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/shape_gradient_white"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:text="Disconnected"
             android:textColor="@color/white_smoke"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
-            app:layout_constraintEnd_toStartOf="@id/iv_remote"
+            app:layout_constraintEnd_toStartOf="@id/iv_drone"
             app:layout_constraintStart_toEndOf="@id/iv_shape"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_drone"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_drone"
+            android:background="@color/thirty_five_opaque"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+            app:layout_constraintEnd_toStartOf="@id/sp_flight_mode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/sp_flight_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/thirty_five_opaque"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_drone"
+            app:layout_constraintEnd_toStartOf="@id/iv_gps"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_gps"
+            android:paddingStart="@dimen/_5sdp"
+            android:background="@color/thirty_five_opaque"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+            app:layout_constraintEnd_toStartOf="@id/iv_signal"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_signal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_no_signal"
+            android:paddingEnd="@dimen/_10sdp"
+            android:background="@color/thirty_five_opaque"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+            app:layout_constraintEnd_toStartOf="@id/iv_remote"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

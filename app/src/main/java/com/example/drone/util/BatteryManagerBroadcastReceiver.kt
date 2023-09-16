@@ -1,4 +1,4 @@
-package com.example.drone.view.extensions
+package com.example.drone.util
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -8,6 +8,10 @@ import android.content.pm.ActivityInfo
 import android.os.BatteryManager
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.PopupWindow
+import android.widget.Spinner
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -16,7 +20,7 @@ import androidx.navigation.Navigation
 import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentMapPageBinding
-import com.example.drone.view.extensions.BatteryManagerBroadcastReceiver
+import com.example.drone.util.BatteryManagerBroadcastReceiver
 import com.example.drone.view.ui.home.HomeViewModel
 
 class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
@@ -29,6 +33,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
 
 
     override val layoutId: Int = R.layout.fragment_map_page
+
     //by viewmodel scope
     override val viewModel: HomeViewModel by viewModels()
 
@@ -55,7 +60,8 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         }
 
         broadcastReceiver = BatteryManagerBroadcastReceiver {
-            val propertyCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            val propertyCapacity =
+                batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
 
             binding.tvBattery.text = "$propertyCapacity %"
             binding.ivBattery.setImageLevel(propertyCapacity)
@@ -65,6 +71,19 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
             addAction(Intent.ACTION_BATTERY_CHANGED)
         }
         activityContext.registerReceiver(broadcastReceiver, filter)
+
+
+        val languages = resources.getStringArray(R.array.flight_mode)
+
+        // access the spinner
+        val spinner = binding.spFlightMode
+        val adapter = ArrayAdapter(
+            activityContext,
+            android.R.layout.simple_spinner_item, languages
+        )
+        spinner.adapter = adapter
+
+        spinner.avoidDropdownFocus()
 
     }
 
@@ -85,8 +104,27 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         activityContext.unregisterReceiver(broadcastReceiver)
     }
 
-    private fun setBattery(propertyCapacity: Int) {
-        binding.tvBattery.text = propertyCapacity.toString()
-        binding.ivBattery.setImageLevel(propertyCapacity)
+    private fun Spinner.avoidDropdownFocus() {
+        try {
+            val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
+            val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
+            val popupWindowClass = if (isAppCompat) androidx.appcompat.widget.ListPopupWindow::class.java else android.widget.ListPopupWindow::class.java
+
+            val listPopup = spinnerClass
+                .getDeclaredField("mPopup")
+                .apply { isAccessible = true }
+                .get(this)
+            if (popupWindowClass.isInstance(listPopup)) {
+                val popup = popupWindowClass
+                    .getDeclaredField("mPopup")
+                    .apply { isAccessible = true }
+                    .get(listPopup)
+                if (popup is PopupWindow) {
+                    popup.isFocusable = false
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

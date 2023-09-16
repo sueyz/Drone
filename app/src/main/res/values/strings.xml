@@ -2,4 +2,10 @@
     <string name="app_name">Drone</string>
     <string name="launching">Launching!</string>
     <string name="start">Start</string>
+
+    <string-array name="flight_mode">
+        <item>N/A</item>
+        <item>OPTI</item>
+        <item>ATTI</item>
+    </string-array>
 </resources>
