@@ -1,6 +1,11 @@
 package com.example.drone.view.ui.map
 
+import android.content.BroadcastReceiver
+import android.content.Context.BATTERY_SERVICE
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.os.BatteryManager
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.WindowCompat
@@ -11,10 +16,17 @@ import androidx.navigation.Navigation
 import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentMapPageBinding
+import com.example.drone.view.extensions.BatteryManagerBroadcastReceiver
 import com.example.drone.view.ui.home.HomeViewModel
-import safeNavigate
 
 class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
+
+    private lateinit var broadcastReceiver: BroadcastReceiver
+
+    private val batteryManager: BatteryManager by lazy {
+        activityContext.getSystemService(BATTERY_SERVICE) as BatteryManager
+    }
+
 
     override val layoutId: Int = R.layout.fragment_map_page
     //by viewmodel scope
@@ -41,17 +53,40 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         binding.ivHome.setOnClickListener {
             navController.popBackStack()
         }
+        
+        broadcastReceiver = BatteryManagerBroadcastReceiver {
+            val propertyCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+
+            binding.tvBattery.text = "$propertyCapacity %"
+            binding.ivBattery.setImageLevel(propertyCapacity)
+        }
+
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_BATTERY_CHANGED)
+        }
+        activityContext.registerReceiver(broadcastReceiver, filter)
 
     }
 
     override fun onResume() {
         super.onResume()
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        activityContext.unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun setBattery(propertyCapacity: Int) {
+        binding.tvBattery.text = propertyCapacity.toString()
+        binding.ivBattery.setImageLevel(propertyCapacity)
     }
 }

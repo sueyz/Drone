@@ -7,4 +7,7 @@
     <color name="cornell_red">#BA1B1D</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="silver">#CAC9CD</color>
+    <color name="thirty_five_opaque">#59000000</color>
+
 </resources>
