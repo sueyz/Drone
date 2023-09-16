@@ -29,11 +29,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
 import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentMapPageBinding
 import com.example.drone.util.BatteryManagerBroadcastReceiver
-import com.example.drone.view.ui.home.HomeViewModel
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
@@ -44,12 +45,15 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
-class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationListener {
+class MapPage : BaseFragment<FragmentMapPageBinding, MapViewModel>(), LocationListener {
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var locationManager: LocationManager
 
-    private var currentLocation: GeoPoint = GeoPoint(2.909368, 101.655304)
+    val latitude: Double = 2.909368
+    val longitude: Double = 101.655304
+
+    private var currentLocation: GeoPoint = GeoPoint(latitude, longitude)
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -72,7 +76,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
     override val layoutId: Int = R.layout.fragment_map_page
 
     //by viewmodel scope
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: MapViewModel by viewModels()
 
     override fun init(savedInstanceState: Bundle?) {
         val window = activityContext.window
@@ -91,6 +95,8 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
 
     override fun setupView(view: View) {
         navController = Navigation.findNavController(view)
+
+        viewModel.getDataFromAPI(latitude.toString(), longitude.toString())
 
         binding.ivHome.setOnClickListener {
             navController.popBackStack()
@@ -180,6 +186,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
             binding.spFlightMode.setSelection(1)
 
             binding.llTelemetry.visibility = View.VISIBLE
+            binding.llWeather.visibility = View.VISIBLE
 
             binding.ivExitMap.background =
                 ContextCompat.getDrawable(activityContext, R.drawable.map_view)
@@ -206,6 +213,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
             binding.spFlightMode.setSelection(0)
 
             binding.llTelemetry.visibility = View.INVISIBLE
+            binding.llWeather.visibility = View.INVISIBLE
 
             binding.ivExitMap.background =
                 ContextCompat.getDrawable(activityContext, R.drawable.gradient_default)
@@ -302,7 +310,70 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
         binding.osmmap.invalidate()
         binding.osmmapLarge.invalidate()
 
+    }
 
+    override fun bindViewModelToData() {
+        super.bindViewModelToData()
+
+        val url = "https://openweathermap.org/img/wn/"
+        var urlMiddle = "10d"
+        val urlEnd = "@2x.png"
+
+
+        val drawable = CircularProgressDrawable(activityContext)
+        drawable.setColorSchemeColors(
+            R.color.white,
+            R.color.white,
+            R.color.white
+        )
+        drawable.centerRadius = 30f
+        drawable.strokeWidth = 5f
+        drawable.start()
+
+
+        viewModel.weatherData.observe(this) { data ->
+            data?.let {
+
+                when (data.weather[0].id) {
+                    200, 201, 202, 210, 211, 212, 221, 230, 231, 232 -> urlMiddle = "11d"
+                    300, 301, 302, 310, 311, 312, 313, 314, 321 -> urlMiddle = "09d"
+                    500, 501, 502, 503, 504 -> urlMiddle = "10d"
+                    511 -> urlMiddle = "13d"
+                    520, 521, 522, 531 -> urlMiddle = "09d"
+                    600, 601, 602, 611, 612, 613, 615, 616, 620, 621, 622 -> urlMiddle = "13d"
+                    701, 711, 721, 731, 741, 751, 761, 762, 771, 781 -> urlMiddle = "50d"
+                    800 -> urlMiddle = "01d"
+                    801 -> urlMiddle = "02d"
+                    802 -> urlMiddle = "03d"
+                    803 -> urlMiddle = "04d"
+                    804 -> urlMiddle = "04d"
+
+                }
+
+                val finalUrl = url + urlMiddle + urlEnd
+
+                Glide
+                    .with(this)
+                    .load(finalUrl)
+                    .centerCrop()
+                    .placeholder(drawable)
+                    .into(binding.ivWeather)
+
+
+                binding.tvTemperature.text = "${data.main?.temp?.toInt().toString()} °C"
+                binding.tvWindSpeed.text = "${data.wind?.speed.toString()} m/s"
+
+
+            }
+        }
+
+        viewModel.weatherError.observe(this) { error ->
+            error?.let {
+                if (error) {
+                    Toast.makeText(activityContext, "Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onResume() {
