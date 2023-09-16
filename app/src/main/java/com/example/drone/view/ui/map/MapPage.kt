@@ -142,6 +142,8 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
 
             binding.spStatus.setSelection(1)
             binding.spFlightMode.setSelection(1)
+
+            binding.llTelemetry.visibility = View.VISIBLE
         }
 
         binding.ibLanding.setOnClickListener {
@@ -163,6 +165,8 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
             )
             binding.spStatus.setSelection(0)
             binding.spFlightMode.setSelection(0)
+
+            binding.llTelemetry.visibility = View.INVISIBLE
         }
 
         binding.ibStart.setOnClickListener {
@@ -194,15 +198,9 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
     }
 
-    override fun onPause() {
-        super.onPause()
-        activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
+        activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         activityContext.unregisterReceiver(broadcastReceiver)
     }
 

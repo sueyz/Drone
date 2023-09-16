@@ -198,13 +198,90 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
+            android:id="@+id/ll_telemetry"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/left_small_margin"
+            android:layout_marginEnd="@dimen/left_margin"
+            android:background="@color/walnut_brown"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_more">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_smoke"
+                android:gravity="center"
+                android:text="Values"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Altitude (m)"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_8ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="25.7"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_15ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Ground Speed (m/s)"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_8ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="0.1"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_15ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Flight Time"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_8ssp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="00:00:13"
+                android:textColor="@color/white_smoke"
+                android:textSize="@dimen/_15ssp" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/ll_settings"
             android:layout_width="@dimen/_250sdp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:visibility="invisible"
-            android:orientation="vertical"
             android:background="@color/black"
+            android:orientation="vertical"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageButton
@@ -221,10 +298,10 @@
                 android:id="@+id/rv_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
-                tools:listitem="@layout/item_settings_listing"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_settings_listing" />
 
         </LinearLayout>
 
