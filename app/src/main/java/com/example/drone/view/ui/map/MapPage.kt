@@ -168,6 +168,23 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         binding.ibStart.setOnClickListener {
             Toast.makeText(activityContext, "Mission Start not yet implemented!", Toast.LENGTH_SHORT).show()
         }
+
+        binding.ivMore.setOnClickListener {
+            binding.llSettings.visibility = View.VISIBLE
+        }
+
+        binding.ibClose.setOnClickListener {
+            binding.llSettings.visibility = View.INVISIBLE
+        }
+
+        //Recyclerview
+        val data = ArrayList<String>()
+        for (i in 1..20) {
+            data.add("Settings $i")
+        }
+        binding.rvSettings.adapter = SettingsAdapter(data)
+
+
     }
 
     override fun onResume() {
