@@ -79,6 +79,16 @@
             app:layout_constraintTop_toBottomOf="@id/iv_home"
             app:layout_constraintVertical_bias="0.6" />
 
+        <org.osmdroid.views.MapView
+            android:id="@+id/osmmap"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ib_start"
+            app:layout_constraintVertical_bias="0.7" />
+
         <Spinner
             android:id="@+id/sp_status"
             android:layout_width="0dp"
@@ -106,7 +116,7 @@
             android:background="@color/thirty_five_opaque"
             app:layout_constraintBottom_toBottomOf="@+id/iv_drone"
             app:layout_constraintEnd_toStartOf="@id/iv_gps"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/iv_drone" />
 
         <ImageView
             android:id="@+id/iv_gps"
@@ -125,7 +135,7 @@
             android:layout_height="0dp"
             android:background="@color/thirty_five_opaque"
             android:paddingEnd="@dimen/_10sdp"
-            android:src="@drawable/ic_no_signal"
+            android:src="@drawable/ic_signal"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/iv_remote"
             app:layout_constraintTop_toTopOf="parent" />

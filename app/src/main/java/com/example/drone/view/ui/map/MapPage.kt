@@ -1,10 +1,18 @@
 package com.example.drone.view.ui.map
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context.BATTERY_SERVICE
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.BatteryManager
 import android.os.Bundle
 import android.view.View
@@ -13,21 +21,46 @@ import android.widget.ArrayAdapter
 import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.preference.PreferenceManager
 import com.example.drone.R
 import com.example.drone.base.BaseFragment
 import com.example.drone.databinding.FragmentMapPageBinding
 import com.example.drone.util.BatteryManagerBroadcastReceiver
 import com.example.drone.view.ui.home.HomeViewModel
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
-class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
+
+class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationListener {
 
     private lateinit var broadcastReceiver: BroadcastReceiver
+    private lateinit var locationManager: LocationManager
+
+    private var currentLocation: GeoPoint = GeoPoint(20.5, 78.9)
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+
+            if (isGranted) { // permission is granted
+
+                getLocation()
+
+            } else {
+                // handle permission denial
+            }
+        }
+
 
     private val batteryManager: BatteryManager by lazy {
         activityContext.getSystemService(BATTERY_SERVICE) as BatteryManager
@@ -77,11 +110,11 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
 
         binding.spFlightMode.adapter = ArrayAdapter(
             activityContext,
-            android.R.layout.simple_spinner_item, resources.getStringArray(R.array.flight_mode)
+            R.layout.spinner_text, resources.getStringArray(R.array.flight_mode)
         )
         binding.spStatus.adapter = ArrayAdapter(
             activityContext,
-            android.R.layout.simple_spinner_item, resources.getStringArray(R.array.flight_status)
+            R.layout.spinner_text, resources.getStringArray(R.array.flight_status)
         )
 
         binding.spFlightMode.avoidDropdownFocus()
@@ -93,6 +126,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
                 parent: AdapterView<*>,
                 view: View?, position: Int, id: Long
             ) {
+
                 if (position == 0) {
                     binding.spStatus.background =
                         ContextCompat.getDrawable(activityContext, R.drawable.shape_gradient_white)
@@ -170,7 +204,11 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         }
 
         binding.ibStart.setOnClickListener {
-            Toast.makeText(activityContext, "Mission Start not yet implemented!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                activityContext,
+                "Mission Start not yet implemented!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         binding.ivMore.setOnClickListener {
@@ -191,17 +229,88 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         binding.main.setOnClickListener {
             binding.llSettings.visibility = View.INVISIBLE
         }
+
+
+        Configuration.getInstance().load(
+            activityContext,
+            PreferenceManager.getDefaultSharedPreferences(activityContext)
+        )
+
+        binding.osmmap.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+        binding.osmmap.setMultiTouchControls(true)
+
+        checkLocationPermission()
+
+        val prov = GpsMyLocationProvider(activityContext)
+        prov.addLocationSource(LocationManager.NETWORK_PROVIDER)
+
+        val myLocationOverlay = MyLocationNewOverlay(prov, binding.osmmap)
+        myLocationOverlay.enableMyLocation()
+        myLocationOverlay.enableFollowLocation()
+
+        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_navigation_foreground)
+
+        myLocationOverlay.setPersonAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM);
+        myLocationOverlay.setDirectionAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM);
+
+        myLocationOverlay.setDirectionIcon(bitmap)
+        myLocationOverlay.setPersonIcon(bitmap)
+
+
+        binding.osmmap.overlays.add(myLocationOverlay)
+        binding.osmmap.invalidate()
+
+
+
+
     }
 
     override fun onResume() {
         super.onResume()
+
         activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        Configuration.getInstance().load(
+            activityContext,
+            PreferenceManager.getDefaultSharedPreferences(activityContext)
+        )
+        binding.osmmap.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Configuration.getInstance().save(
+            activityContext,
+            PreferenceManager.getDefaultSharedPreferences(activityContext)
+        )
+        binding.osmmap.onPause()
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         activityContext.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         activityContext.unregisterReceiver(broadcastReceiver)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation() {
+        locationManager = activityContext.getSystemService(LOCATION_SERVICE) as LocationManager
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+
+    }
+
+    private fun checkLocationPermission() {
+        if ((ContextCompat.checkSelfPermission(
+                activityContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED)
+        ) {
+            requestPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
+//            ActivityCompat.requestPermissions(activityContext, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
+        } else {
+            getLocation()
+        }
     }
 
     private fun Spinner.avoidDropdownFocus() {
@@ -229,4 +338,15 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
             e.printStackTrace()
         }
     }
+
+    override fun onLocationChanged(location: Location) {
+        currentLocation = GeoPoint(location.latitude, location.longitude)
+
+        val mapViewController = binding.osmmap.controller
+
+        mapViewController.setZoom(16.0)
+        mapViewController.setCenter(currentLocation)
+
+    }
+
 }
