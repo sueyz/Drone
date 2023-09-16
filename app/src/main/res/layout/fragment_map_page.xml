@@ -37,14 +37,11 @@
             app:layout_constraintStart_toEndOf="@id/iv_home"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_status"
+        <Spinner
+            android:id="@+id/sp_status"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/shape_gradient_white"
-            android:gravity="center_vertical"
-            android:text="Disconnected"
-            android:textColor="@color/white_smoke"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/iv_drone"
             app:layout_constraintStart_toEndOf="@id/iv_shape"

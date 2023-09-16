@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="silver">#CAC9CD</color>
     <color name="thirty_five_opaque">#59000000</color>
+    <color name="yellow">#EDD622</color>
 
 </resources>

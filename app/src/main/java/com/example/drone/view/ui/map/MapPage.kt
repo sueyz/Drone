@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.PopupWindow
 import android.widget.Spinner
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -73,18 +74,49 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         activityContext.registerReceiver(broadcastReceiver, filter)
 
 
-        val languages = resources.getStringArray(R.array.flight_mode)
-
-        // access the spinner
-        val spinner = binding.spFlightMode
-        val adapter = ArrayAdapter(
+        binding.spFlightMode.adapter = ArrayAdapter(
             activityContext,
-            android.R.layout.simple_spinner_item, languages
+            android.R.layout.simple_spinner_item, resources.getStringArray(R.array.flight_mode)
         )
-        spinner.adapter = adapter
+        binding.spStatus.adapter = ArrayAdapter(
+            activityContext,
+            android.R.layout.simple_spinner_item, resources.getStringArray(R.array.flight_status)
+        )
 
-        spinner.avoidDropdownFocus()
+        binding.spFlightMode.avoidDropdownFocus()
+        binding.spStatus.avoidDropdownFocus()
 
+        binding.spStatus.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?, position: Int, id: Long
+            ) {
+                if (position == 0) {
+                    binding.spStatus.background =
+                        ContextCompat.getDrawable(activityContext, R.drawable.shape_gradient_white)
+                    binding.ivShapeTwo.setColorFilter(
+                        ContextCompat.getColor(
+                            activityContext,
+                            R.color.silver
+                        )
+                    )
+                } else {
+                    binding.spStatus.background =
+                        ContextCompat.getDrawable(activityContext, R.drawable.shape_gradient_yellow)
+                    binding.ivShapeTwo.setColorFilter(
+                        ContextCompat.getColor(
+                            activityContext,
+                            R.color.yellow
+                        )
+                    )
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
     }
 
     override fun onResume() {
@@ -107,8 +139,10 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
     private fun Spinner.avoidDropdownFocus() {
         try {
             val isAppCompat = this is androidx.appcompat.widget.AppCompatSpinner
-            val spinnerClass = if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
-            val popupWindowClass = if (isAppCompat) androidx.appcompat.widget.ListPopupWindow::class.java else android.widget.ListPopupWindow::class.java
+            val spinnerClass =
+                if (isAppCompat) androidx.appcompat.widget.AppCompatSpinner::class.java else Spinner::class.java
+            val popupWindowClass =
+                if (isAppCompat) androidx.appcompat.widget.ListPopupWindow::class.java else android.widget.ListPopupWindow::class.java
 
             val listPopup = spinnerClass
                 .getDeclaredField("mPopup")
