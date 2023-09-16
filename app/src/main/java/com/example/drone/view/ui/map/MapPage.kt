@@ -35,8 +35,10 @@ import com.example.drone.databinding.FragmentMapPageBinding
 import com.example.drone.util.BatteryManagerBroadcastReceiver
 import com.example.drone.view.ui.home.HomeViewModel
 import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -47,7 +49,7 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var locationManager: LocationManager
 
-    private var currentLocation: GeoPoint = GeoPoint(20.5, 78.9)
+    private var currentLocation: GeoPoint = GeoPoint(2.909368, 101.655304)
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -178,6 +180,9 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
             binding.spFlightMode.setSelection(1)
 
             binding.llTelemetry.visibility = View.VISIBLE
+
+            binding.ivExitMap.background =
+                ContextCompat.getDrawable(activityContext, R.drawable.map_view)
         }
 
         binding.ibLanding.setOnClickListener {
@@ -201,6 +206,9 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
             binding.spFlightMode.setSelection(0)
 
             binding.llTelemetry.visibility = View.INVISIBLE
+
+            binding.ivExitMap.background =
+                ContextCompat.getDrawable(activityContext, R.drawable.gradient_default)
         }
 
         binding.ibStart.setOnClickListener {
@@ -230,6 +238,25 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
             binding.llSettings.visibility = View.INVISIBLE
         }
 
+        binding.osmmap.overlays.add(MapEventsOverlay(object : MapEventsReceiver {
+            override fun singleTapConfirmedHelper(p: GeoPoint): Boolean {
+                binding.flOsmmapLarge.visibility = View.VISIBLE
+                return false
+            }
+
+            override fun longPressHelper(p: GeoPoint): Boolean {
+                return false
+            }
+        }))
+
+
+        binding.ivExitMap.setOnClickListener {
+            binding.flOsmmapLarge.visibility = View.INVISIBLE
+        }
+
+
+        //Location tracker -Task 2
+        checkLocationPermission()
 
         Configuration.getInstance().load(
             activityContext,
@@ -237,30 +264,43 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
         )
 
         binding.osmmap.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
+        binding.osmmapLarge.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER)
         binding.osmmap.setMultiTouchControls(true)
-
-        checkLocationPermission()
+        binding.osmmapLarge.setMultiTouchControls(true)
 
         val prov = GpsMyLocationProvider(activityContext)
+        prov.addLocationSource(LocationManager.NETWORK_PROVIDER)
+
+        val prov2 = GpsMyLocationProvider(activityContext)
         prov.addLocationSource(LocationManager.NETWORK_PROVIDER)
 
         val myLocationOverlay = MyLocationNewOverlay(prov, binding.osmmap)
         myLocationOverlay.enableMyLocation()
         myLocationOverlay.enableFollowLocation()
 
+        val myLocationOverlayLarge = MyLocationNewOverlay(prov2, binding.osmmapLarge)
+        myLocationOverlayLarge.enableMyLocation()
+        myLocationOverlayLarge.enableFollowLocation()
+
         val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.ic_navigation_foreground)
 
-        myLocationOverlay.setPersonAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM);
-        myLocationOverlay.setDirectionAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM);
+        myLocationOverlay.setPersonAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM)
+        myLocationOverlay.setDirectionAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM)
+
+        myLocationOverlayLarge.setPersonAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM)
+        myLocationOverlayLarge.setDirectionAnchor(Marker.ANCHOR_RIGHT, Marker.ANCHOR_BOTTOM)
 
         myLocationOverlay.setDirectionIcon(bitmap)
         myLocationOverlay.setPersonIcon(bitmap)
 
+        myLocationOverlayLarge.setDirectionIcon(bitmap)
+        myLocationOverlayLarge.setPersonIcon(bitmap)
+
 
         binding.osmmap.overlays.add(myLocationOverlay)
+        binding.osmmapLarge.overlays.add(myLocationOverlayLarge)
         binding.osmmap.invalidate()
-
-
+        binding.osmmapLarge.invalidate()
 
 
     }
@@ -343,10 +383,16 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>(), LocationL
         currentLocation = GeoPoint(location.latitude, location.longitude)
 
         val mapViewController = binding.osmmap.controller
+        val mapViewController2 = binding.osmmapLarge.controller
 
         mapViewController.setZoom(16.0)
         mapViewController.setCenter(currentLocation)
 
+        mapViewController2.setZoom(16.0)
+        mapViewController2.setCenter(currentLocation)
+
+        binding.osmmap.invalidate()
+        binding.osmmapLarge.invalidate()
     }
 
 }

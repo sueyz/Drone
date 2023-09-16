@@ -89,6 +89,33 @@
             app:layout_constraintTop_toBottomOf="@+id/ib_start"
             app:layout_constraintVertical_bias="0.7" />
 
+        <FrameLayout
+            android:id="@+id/fl_osmmap_large"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_status">
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/osmmap_large"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/iv_exit_map"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/gradient_default" />
+
+        </FrameLayout>
+
+
         <Spinner
             android:id="@+id/sp_status"
             android:layout_width="0dp"
