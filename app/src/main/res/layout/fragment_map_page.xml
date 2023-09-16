@@ -7,7 +7,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/map_view">
+        android:background="@drawable/gradient_default">
 
         <ImageView
             android:id="@+id/iv_home"
@@ -37,6 +37,48 @@
             app:layout_constraintStart_toEndOf="@id/iv_home"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/ib_takeoff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_takeoff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_home"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <ImageButton
+            android:id="@+id/ib_landing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_land"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_home"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_home"
+            app:layout_constraintVertical_bias="0.4"
+            app:tint="@color/silver" />
+
+        <ImageButton
+            android:id="@+id/ib_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_home"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_home"
+            app:layout_constraintVertical_bias="0.6" />
+
         <Spinner
             android:id="@+id/sp_status"
             android:layout_width="0dp"
@@ -51,8 +93,8 @@
             android:id="@+id/iv_drone"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@drawable/ic_drone"
             android:background="@color/thirty_five_opaque"
+            android:src="@drawable/ic_drone"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/sp_flight_mode"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,9 +112,9 @@
             android:id="@+id/iv_gps"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@drawable/ic_gps"
-            android:paddingStart="@dimen/_5sdp"
             android:background="@color/thirty_five_opaque"
+            android:paddingStart="@dimen/_5sdp"
+            android:src="@drawable/ic_gps"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/iv_signal"
             app:layout_constraintTop_toTopOf="parent" />
@@ -81,9 +123,9 @@
             android:id="@+id/iv_signal"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@drawable/ic_no_signal"
-            android:paddingEnd="@dimen/_10sdp"
             android:background="@color/thirty_five_opaque"
+            android:paddingEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_no_signal"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/iv_remote"
             app:layout_constraintTop_toTopOf="parent" />
@@ -92,8 +134,8 @@
             android:id="@+id/iv_remote"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:src="@drawable/ic_remote"
             android:background="@color/thirty_five_opaque"
+            android:src="@drawable/ic_remote"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"
             app:layout_constraintEnd_toStartOf="@id/tv_remote"
             app:layout_constraintTop_toTopOf="parent" />
@@ -104,8 +146,8 @@
             android:layout_height="0dp"
             android:background="@color/thirty_five_opaque"
             android:gravity="center"
-            android:paddingEnd="@dimen/_5sdp"
             android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
             android:text="N/A"
             android:textColor="@color/white_smoke"
             app:layout_constraintBottom_toBottomOf="@+id/iv_home"

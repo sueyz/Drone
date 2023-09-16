@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.PopupWindow
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -116,6 +117,56 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
 
             override fun onNothingSelected(parent: AdapterView<*>) {
             }
+        }
+
+        binding.ibLanding.isEnabled = false
+
+
+        binding.ibTakeoff.setOnClickListener {
+            binding.main.background =
+                ContextCompat.getDrawable(activityContext, R.drawable.map_view)
+            binding.ibLanding.isEnabled = true
+            binding.ibTakeoff.isEnabled = false
+            binding.ibTakeoff.setColorFilter(
+                ContextCompat.getColor(
+                    activityContext,
+                    R.color.silver
+                )
+            )
+            binding.ibLanding.setColorFilter(
+                ContextCompat.getColor(
+                    activityContext,
+                    R.color.white
+                )
+            )
+
+            binding.spStatus.setSelection(1)
+            binding.spFlightMode.setSelection(1)
+        }
+
+        binding.ibLanding.setOnClickListener {
+            binding.main.background =
+                ContextCompat.getDrawable(activityContext, R.drawable.gradient_default)
+            binding.ibLanding.isEnabled = false
+            binding.ibTakeoff.isEnabled = true
+            binding.ibLanding.setColorFilter(
+                ContextCompat.getColor(
+                    activityContext,
+                    R.color.silver
+                )
+            )
+            binding.ibTakeoff.setColorFilter(
+                ContextCompat.getColor(
+                    activityContext,
+                    R.color.white
+                )
+            )
+            binding.spStatus.setSelection(0)
+            binding.spFlightMode.setSelection(0)
+        }
+
+        binding.ibStart.setOnClickListener {
+            Toast.makeText(activityContext, "Mission Start not yet implemented!", Toast.LENGTH_SHORT).show()
         }
     }
 
