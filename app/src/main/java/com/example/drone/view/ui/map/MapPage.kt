@@ -184,7 +184,9 @@ class MapPage : BaseFragment<FragmentMapPageBinding, HomeViewModel>() {
         }
         binding.rvSettings.adapter = SettingsAdapter(data)
 
-
+        binding.main.setOnClickListener {
+            binding.llSettings.visibility = View.INVISIBLE
+        }
     }
 
     override fun onResume() {
