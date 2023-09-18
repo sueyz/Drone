@@ -451,6 +451,17 @@ class MapPage : BaseFragment<FragmentMapPageBinding, MapViewModel>(), LocationLi
         }
     }
 
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+    }
+
+    override fun onProviderDisabled(provider: String) {
+        super.onProviderDisabled(provider)
+    }
+
+    override fun onProviderEnabled(provider: String) {
+        super.onProviderEnabled(provider)
+    }
+
     override fun onLocationChanged(location: Location) {
         currentLocation = GeoPoint(location.latitude, location.longitude)
 
