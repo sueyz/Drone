@@ -69,8 +69,6 @@ lint/tmp/
 # lint/reports/
 # MacOS
 .DS_Store
-secure/*
 # App Specific cases 
 app/release/output.json
 .idea/codeStyles/
-secure/creds.properties
