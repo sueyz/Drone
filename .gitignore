@@ -73,3 +73,4 @@ secure/*
 # App Specific cases 
 app/release/output.json
 .idea/codeStyles/
+secure/creds.properties

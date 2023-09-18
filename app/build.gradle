@@ -16,6 +16,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", "\"" + getApiKey() + "\"" )
     }
 
     buildTypes {
@@ -73,4 +75,12 @@ dependencies {
 
     //Lottie
     implementation 'com.airbnb.android:lottie:6.1.0'
+}
+
+def getApiKey () {
+
+    def credsFile = rootProject.file("secure\\creds.properties")
+    def prop = new Properties()
+    prop.load(new FileInputStream(credsFile))
+    return prop['API_KEY']
 }
